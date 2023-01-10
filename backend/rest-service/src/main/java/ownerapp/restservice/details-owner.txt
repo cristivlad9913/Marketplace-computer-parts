@@ -1,0 +1,46 @@
+Product Owner App:
+- User places Posts in which he lists his Computer Products that he wants to sell
+
+1. Sign Up page / Login :
+	- form with all the above
+	- sign up
+	- creates user
+	- redirect to User Profile page/ Feed ?
+2. User Feed/Dashboard/Main Page ??
+	- List of Posts
+	+ Add Post
+	- Delete Post
+	- Edit
+3. Post Details
+	- Title
+	- Description
+	- Products []/ Items[]:
+		+ Add Item
+		- Remove Item
+		- Name
+		- Price
+		- Description (free style)
+	- Contact:
+		- Phone
+		- Email
+	- Status: Active / Inactive
+4. My Offers:
+	- Post ID | User from Buyer app ID | Price | Status (Accept/Decline)
+		Accept
+	- Post 1 | User 1111 | 1000 Euro -> Accept -> ACCEPTED
+	- Post 1 | User 1111 | 1000 Euro -> Decline -> DECLINED
+
+4. My Deals
+	- Post Name - bought by User in Buyer App
+	- Post 1 | User 1111 | 1000 Euro
+
+2. User Profile - page
+	- username
+	- password
+	- mail
+	- phone
+	+ Sign Out
+
+----------------
+
+URL: localhost:8081
