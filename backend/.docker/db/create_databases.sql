@@ -1,0 +1,7 @@
+CREATE USER marketplace;
+
+CREATE DATABASE buyer;
+GRANT ALL PRIVILEGES ON DATABASE buyer TO marketplace;
+
+CREATE DATABASE owner;
+GRANT ALL PRIVILEGES ON DATABASE owner TO marketplace;

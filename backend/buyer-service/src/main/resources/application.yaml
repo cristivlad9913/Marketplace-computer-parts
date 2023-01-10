@@ -1,0 +1,40 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  application:
+    name: buyer-service
+  main:
+    banner-mode: "off"
+    allow-circular-references: false
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+  servlet:
+    multipart:
+      max-file-size: 400MB
+      max-request-size: 400MB
+  rabbitmq:
+    listener:
+      simple:
+        default-requeue-rejected: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/buyer
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: pa55w0rd
+
+# Spring Cloud Netflix-Eureka Client Configurations
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka
+#    register-with-eureka: true
+#    fetch-registry: true
+#    eureka-server-port: 8761
+
+
+

@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+    database:
+        image: docker.io/bitnami/postgresql:13
+        container_name: marketplace-data
+        ports:
+            - 127.0.0.1:5432:5432
+        volumes:
+            - marketplace-data:/bitnami/postgresql
+            - ./.docker/db:/docker-entrypoint-initdb.d
+        environment:
+            - POSTGRES_DB=marketplace
+            - POSTGRES_PASSWORD=pa55w0rd
+volumes:
+    marketplace-data:
