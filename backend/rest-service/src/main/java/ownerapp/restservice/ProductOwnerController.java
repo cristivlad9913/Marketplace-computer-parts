@@ -1,7 +1,6 @@
 package ownerapp.restservice;
 
 import org.springframework.web.bind.annotation.*;
-import ownerapp.restservice.*;
 
 import java.util.List;
 
