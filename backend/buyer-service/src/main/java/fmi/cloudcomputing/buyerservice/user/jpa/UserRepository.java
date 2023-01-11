@@ -12,4 +12,5 @@ import java.util.Optional;
 //in this case, the `User` entity will have long(numeric) auto-generated Ids.
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
+    Optional<User> findByUsernameAndPassword(String username, String password);
 }

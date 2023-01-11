@@ -32,4 +32,9 @@ public class UserController {
     }
 
 
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@RequestBody LoginUserDto loginUserDto){
+        final boolean isSuccessfulLogin = userService.userCredentialsValid(loginUserDto);
+        return ResponseEntity.status(isSuccessfulLogin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED).build();
+    }
 }

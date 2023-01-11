@@ -10,6 +10,14 @@ public class CreateUserDto {
     private String lastName;
     private String phone;
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getUsername() {
         return username;
     }
