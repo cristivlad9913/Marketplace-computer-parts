@@ -1,4 +1,4 @@
-package ownerapp.restservice;
+package user.jpa;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

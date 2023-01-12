@@ -1,10 +1,17 @@
-package ownerapp.restservice;
+package user.presentation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import user.jpa.ProductOwner;
+import user.deal.Deal;
+import user.item.Item;
+import user.offer.Offer;
+import user.post.Post;
+import user.service.ProductOwnerService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductOwnerController {
@@ -16,10 +23,16 @@ public class ProductOwnerController {
 
     }
 
-    @PostMapping("/register")
+    @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody ProductOwner productOwner) {
        final boolean isSuccessfulLogin = productOwnerService.userCredentialsValid(productOwner);
         return ResponseEntity.status(isSuccessfulLogin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED).build();
+    }
+    @PostMapping("/register")
+    public ResponseEntity<ProductOwner> registerUser(@RequestBody ProductOwner createUserDto){
+        ProductOwner out = createUserDto.registerUser(createUserDto);
+//        ResponseEntity is a wrapper that adds HTTP stuff to your response
+        return ResponseEntity.status(HttpStatus.CREATED).body(out);
     }
 
     @GetMapping("/feed")
@@ -87,7 +100,7 @@ public class ProductOwnerController {
     }
 
     @PutMapping("/profile")
-    public ProductOwner updateProductOwnerProfile(@RequestBody ProductOwner productOwner) {
+    public Optional<ProductOwner> updateProductOwnerProfile(@RequestBody ProductOwner productOwner) {
         return productOwnerService.updateProductOwnerProfile(productOwner);
     }
 

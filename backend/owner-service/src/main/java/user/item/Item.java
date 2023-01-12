@@ -1,4 +1,6 @@
-package ownerapp.restservice;
+package user.item;
+
+import user.post.Post;
 
 public class Item {
     public Item() {

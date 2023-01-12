@@ -1,4 +1,4 @@
-package ownerapp.restservice;
+package user.post;
 
 public class Post {
     public Post() {

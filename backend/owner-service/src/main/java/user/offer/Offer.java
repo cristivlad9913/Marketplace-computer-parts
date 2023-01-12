@@ -1,4 +1,4 @@
-package ownerapp.restservice;
+package user.offer;
 
 public class Offer {
     private String status;
