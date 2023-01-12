@@ -1,27 +1,25 @@
 package ownerapp.restservice;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/productowner")
 public class ProductOwnerController {
 
     private final ProductOwnerService productOwnerService;
 
     public ProductOwnerController(ProductOwnerService productOwnerService) {
         this.productOwnerService = productOwnerService;
+
     }
 
-    @PostMapping("/signup")
-    public ProductOwner signup(@RequestBody ProductOwner productOwner) {
-        return productOwnerService.createProductOwner(productOwner);
-    }
-
-    @PostMapping("/login")
-    public ProductOwner login(@RequestBody ProductOwner productOwner) {
-        return productOwnerService.login(productOwner.getUsername(), productOwner.getPassword());
+    @PostMapping("/register")
+    public ResponseEntity<Void> login(@RequestBody ProductOwner productOwner) {
+       final boolean isSuccessfulLogin = productOwnerService.userCredentialsValid(productOwner);
+        return ResponseEntity.status(isSuccessfulLogin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED).build();
     }
 
     @GetMapping("/feed")
@@ -84,8 +82,8 @@ public class ProductOwnerController {
     }
 
     @GetMapping("/profile")
-    public ProductOwner getProductOwnerProfile() {
-        return productOwnerService.getProductOwnerProfile();
+    public ResponseEntity<?> getProductOwnerProfile() {
+        return ResponseEntity.ok(productOwnerService.getCurrentUser());
     }
 
     @PutMapping("/profile")
