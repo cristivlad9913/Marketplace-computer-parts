@@ -1,4 +1,4 @@
-package ownerapp.restservice;
+package user.deal;
 
 import org.springframework.stereotype.Repository;
 

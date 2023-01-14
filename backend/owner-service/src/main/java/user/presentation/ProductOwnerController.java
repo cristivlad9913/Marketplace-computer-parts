@@ -1,27 +1,38 @@
-package ownerapp.restservice;
+package user.presentation;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import user.jpa.ProductOwner;
+import user.deal.Deal;
+import user.item.Item;
+import user.offer.Offer;
+import user.post.Post;
+import user.service.ProductOwnerService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/productowner")
 public class ProductOwnerController {
 
     private final ProductOwnerService productOwnerService;
 
     public ProductOwnerController(ProductOwnerService productOwnerService) {
         this.productOwnerService = productOwnerService;
-    }
 
-    @PostMapping("/signup")
-    public ProductOwner signup(@RequestBody ProductOwner productOwner) {
-        return productOwnerService.createProductOwner(productOwner);
     }
 
     @PostMapping("/login")
-    public ProductOwner login(@RequestBody ProductOwner productOwner) {
-        return productOwnerService.login(productOwner.getUsername(), productOwner.getPassword());
+    public ResponseEntity<Void> login(@RequestBody ProductOwner productOwner) {
+       final boolean isSuccessfulLogin = productOwnerService.userCredentialsValid(productOwner);
+        return ResponseEntity.status(isSuccessfulLogin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED).build();
+    }
+    @PostMapping("/register")
+    public ResponseEntity<ProductOwner> registerUser(@RequestBody ProductOwner createUserDto){
+        ProductOwner out = createUserDto.registerUser(createUserDto);
+//        ResponseEntity is a wrapper that adds HTTP stuff to your response
+        return ResponseEntity.status(HttpStatus.CREATED).body(out);
     }
 
     @GetMapping("/feed")
@@ -84,12 +95,12 @@ public class ProductOwnerController {
     }
 
     @GetMapping("/profile")
-    public ProductOwner getProductOwnerProfile() {
-        return productOwnerService.getProductOwnerProfile();
+    public ResponseEntity<?> getProductOwnerProfile() {
+        return ResponseEntity.ok(productOwnerService.getCurrentUser());
     }
 
     @PutMapping("/profile")
-    public ProductOwner updateProductOwnerProfile(@RequestBody ProductOwner productOwner) {
+    public Optional<ProductOwner> updateProductOwnerProfile(@RequestBody ProductOwner productOwner) {
         return productOwnerService.updateProductOwnerProfile(productOwner);
     }
 

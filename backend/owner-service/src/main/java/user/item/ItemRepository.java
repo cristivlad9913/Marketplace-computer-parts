@@ -1,4 +1,4 @@
-package ownerapp.restservice;
+package user.item;
 
 import org.springframework.stereotype.Repository;
 

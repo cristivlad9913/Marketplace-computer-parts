@@ -1,9 +1,9 @@
-package ownerapp.restservice;
+package user.post;
 
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
+
 @Repository
 public class PostRepository {
     public List<Post> findAll() {
