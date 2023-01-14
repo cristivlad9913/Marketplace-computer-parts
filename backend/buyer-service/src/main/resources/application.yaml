@@ -28,13 +28,13 @@ spring:
     password: pa55w0rd
 
 # Spring Cloud Netflix-Eureka Client Configurations
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka
-#    register-with-eureka: true
-#    fetch-registry: true
-#    eureka-server-port: 8761
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    eureka-server-port: 8761
 
 
 
