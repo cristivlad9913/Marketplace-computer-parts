@@ -12,5 +12,22 @@ services:
         environment:
             - POSTGRES_DB=marketplace
             - POSTGRES_PASSWORD=pa55w0rd
+    discovery-server:
+        image: catalincaprita/discovery-server:latest
+        ports:
+            - 8761:8761
+
+    buyer-service:
+        image: catalincaprita/buyer-service:latest
+        container_name: buyer-service
+        ports:
+            -   127.0.0.1:8080:8080
+        depends_on:
+            -   discovery-server
+            -   database
+        environment:
+            DBMS_HOST: database
+            DISCOVERY_HOST: discovery-server
+
 volumes:
     marketplace-data:

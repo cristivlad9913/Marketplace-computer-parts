@@ -22,7 +22,7 @@ spring:
       simple:
         default-requeue-rejected: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/buyer
+    url: jdbc:postgresql://${DBMS_HOST:localhost}:5432/buyer
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: pa55w0rd
@@ -31,7 +31,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${DISCOVERY_HOST:localhost}:8761/eureka
     register-with-eureka: true
     fetch-registry: true
     eureka-server-port: 8761
