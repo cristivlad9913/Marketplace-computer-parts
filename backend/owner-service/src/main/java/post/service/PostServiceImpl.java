@@ -106,8 +106,8 @@ public class PostServiceImpl implements PostService {
         post = postRepository.save(post);
 
         ProductOwner owner = Hibernate.unproxy(post.getOwner(), ProductOwner.class);
-        ProductOwnerDto result = modelMapper.map(post, ProductOwnerDto.class);
-        result.setPostdto(modelMapper.map(owner, PostDto.class));
+        PostDto result = modelMapper.map(post, PostDto.class);
+        result.setProductOwner(modelMapper.map(owner, ProductOwner.class));
         return result;
     }
 
@@ -123,18 +123,19 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostListingDto> getAll(OfferFilters filters) {
-        return postRepository.findAllByPostSummary_IdOrPostSummary_OwnerId(filters.getPostId(), filters.getOwnerId())
-                .stream()
-                .map(post ->{
-//                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
-                    PostListingDto dto = modelMapper.map(post, PostListingDto.class);
-
-//                    dto.setPostId(offer.getPostSummary().getId());
-//                    dto.setPostTitle(offer.getPostSummary().getTitle());
-//                    dto.setRequestedPrice(offer.getPostSummary().getRequestPrice());
-//                    dto.setOwnerUsername(offer.getPostSummary().getOwnerUsername());
-                    return dto;
-                })
-                .collect(Collectors.toList());
+        //return postRepository.findAllByPostSummary_IdOrPostSummary_OwnerId(filters.getPostId(), filters.getOwnerId());
+//                .stream()
+//                .map(post ->{
+////                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
+//                    PostListingDto dto = modelMapper.map(post, PostListingDto.class);
+//
+////                    dto.setPostId(offer.getPostSummary().getId());
+////                    dto.setPostTitle(offer.getPostSummary().getTitle());
+////                    dto.setRequestedPrice(offer.getPostSummary().getRequestPrice());
+////                    dto.setOwnerUsername(offer.getPostSummary().getOwnerUsername());
+//                    return dto;
+//                })
+//                .collect(Collectors.toList());
+        return null;
     }
 }
