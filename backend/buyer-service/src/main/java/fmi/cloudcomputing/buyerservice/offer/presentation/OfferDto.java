@@ -4,10 +4,9 @@ import fmi.cloudcomputing.buyerservice.offer.jpa.OfferStatus;
 import fmi.cloudcomputing.buyerservice.offer.jpa.PostSummary;
 import fmi.cloudcomputing.buyerservice.user.presentation.UserDto;
 
-//Aici vrem toate detaliile despre oferta, fiindca va fi o pagina intreaga doar despre oferta
 public class OfferDto {
     private Long id;
-    private String postId;
+    private Long postId;
     private UserDto buyer;
     private double offeredPrice;
     private OfferStatus status;
@@ -21,11 +20,11 @@ public class OfferDto {
         this.id = id;
     }
 
-    public String getPostId() {
+    public Long getPostId() {
         return postId;
     }
 
-    public void setPostId(String postId) {
+    public void setPostId(Long postId) {
         this.postId = postId;
     }
 

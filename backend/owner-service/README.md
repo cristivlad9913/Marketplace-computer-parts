@@ -74,9 +74,9 @@ Response: {
 
 # Create Post Page
 Un `Post` contine mai multe `Item`-uri fiecare cu pretul ei.
-```
+```agsl
 POST /posts/
-Body: Nu e definitiv, TBA
+Body: 
 {
 "title": str,
 "descripition": str,
@@ -87,8 +87,8 @@ Body: Nu e definitiv, TBA
         "description":str
     }
 ]
+}
 Response: same body as /posts/{id}
-
 ```
 
 # Post Detail Page
@@ -99,26 +99,60 @@ la toate offers care sunt `PENDING` pentru acest `Post`.
 
 ```agsl
 GET /posts/{id}
-Response: {
-    "id": long,
-    "title": str,
-    "descripition": str,
-    "total": float,
-    "status": ACTIVE | INACTIVE
-"items":[
-    {
-        "name": str,
-        "price": float,
-        "description":str
-    },
-    ...
-]
+Response: 
+{
+    "id": 2,
+    "title": "P212312",
+    "description": "ty8u",
+    "total": 250.0,
+    "status": "AVAILABLE",
+    "items": [
+        {
+            "id": 3,
+            "name": "I1_MOD",
+            "description": "aosidoaijsd",
+            "price": 100.0
+        },
+        ...
+    ],
+    "owner": {
+        "username": "test3",
+        "email": "some@mail.com",
+        "firstName": "firstName",
+        "lastName": "lastName",
+        "phone": "1230909301-20"
+    }
 }
 ```
 ```agsl
-PATCH /posts/
-Body: Same as above
-Response: Same as above
+PATCH /posts/{id}
+Body: 
+{
+    "title":"ijasdij",
+    "description":"sda",
+    "items":[
+        {
+            "id": 3, 
+            "name": "I1_MOD",
+            "description": "aosidoaijsd",
+            "price": 100.0
+        },
+        {
+            "id": 4,
+            "name": "I2_MODE",
+            "description": "aosidoaijsd",
+            "price": 150.0
+        },
+        {
+            // daca "id" lipseste, se va crea un Item nou
+            "name": "I3_NEW",
+            "description": "aosidoaijsd",
+            "price": 150.0
+        }
+        --- toate itemele care nu apar in lista pentru PATCH se sterg automat
+    ]
+}
+
 ```
 ```agsl
 DELETE /posts/{id}
@@ -132,10 +166,15 @@ Lista de `Offer` care sunt facute pentru `Post`-ul asta.
 GET /posts/{id}/offers
 Response: [
     {
-        "id": long,
-        "buyerId": long,
-        "buyerUsername": str,
-        "offeredPrice": float,
+        "offerId": 42,
+        "buyer": {
+            "id": 1,
+            "username": "test1",
+            "email": "some@mail.com",
+            "phone": "1230909301-20"
+        },
+        "offeredPrice": 158.0,
+        "status": "PENDING"
     },
     ...
 ]
@@ -147,9 +186,20 @@ PATCH /posts/{post-id}/offers/{offer-id}
 
 Body: 
 {
-    "status": [ACCEPT|REJECT]
+    "status": [ACCEPTED|REJECTED]
 }
-Response: 200 OK if the offer is updated, 404 if it does not exist
+Response: 
+{
+    "offerId": 42,
+    "buyer": {
+        "id": 1,
+        "username": "test1",
+        "email": "some@mail.com",
+        "phone": "1230909301-20"
+    },
+    "offeredPrice": 158.0,
+    "status": "ACCEPTED|REJECTED"
+}
 ```
 
 

@@ -3,13 +3,15 @@ package fmi.cloudcomputing.buyerservice.offer.service;
 import fmi.cloudcomputing.buyerservice.offer.jpa.Offer;
 import fmi.cloudcomputing.buyerservice.offer.jpa.OfferRepository;
 import fmi.cloudcomputing.buyerservice.offer.jpa.OfferStatus;
+import fmi.cloudcomputing.buyerservice.offer.jpa.PostSummary;
 import fmi.cloudcomputing.buyerservice.offer.presentation.*;
+import fmi.cloudcomputing.buyerservice.post.CreatePostOfferDto;
+import fmi.cloudcomputing.buyerservice.post.PostDto;
 import fmi.cloudcomputing.buyerservice.post.PostRestConsumer;
 import fmi.cloudcomputing.buyerservice.user.jpa.User;
 import fmi.cloudcomputing.buyerservice.user.presentation.UserDto;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Example;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -70,16 +72,15 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public OfferDto create(CreateOfferDto dto) {
-//        Asta nu functioneaza momentan, fiindca trebuie facut get by id in owner app;
-//        PostDto postDto;
-//        try {
-//            postDto = postRestConsumer.getById(dto.getPostId()).getBody();
-//            if (postDto == null) {
-//                throw new NoSuchElementException(dto.getPostId());
-//            }
-//        } catch (Exception e) {
-//            throw new NoSuchElementException(dto.getPostId());
-//        }
+        PostDto postDto;
+        try {
+            postDto = postRestConsumer.getById(dto.getPostId()).getBody();
+            if (postDto == null) {
+                throw new NoSuchElementException(dto.getPostId().toString());
+            }
+        } catch (Exception e) {
+            throw new NoSuchElementException(dto.getPostId().toString());
+        }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
@@ -87,13 +88,26 @@ public class OfferServiceImpl implements OfferService {
         Offer offer = modelMapper.map(dto, Offer.class);
         offer.setBuyer(user);
         offer.setStatus(OfferStatus.PENDING);
-        offer = offerRepository.save(offer);
-//        offer.setPostSummary(modelMapper.map(postDto, PostSummary.class));
+        PostSummary summary = modelMapper.map(postDto, PostSummary.class);
+        summary.setOwnerEmail(postDto.getOwner().getEmail());
+        summary.setOwnerPhone(postDto.getOwner().getPhone());
+        summary.setOwnerUsername(postDto.getOwner().getUsername());
+        summary.setRequestPrice(postDto.getTotal());
+        offer.setPostSummary(summary);
 
+        offer = offerRepository.save(offer);
         OfferDto result = modelMapper.map(offer, OfferDto.class);
         result.setBuyer(modelMapper.map(user, UserDto.class));
 
+        sendOfferToPost(offer, user);
         return result;
+    }
+
+    private void sendOfferToPost(Offer offer, User user) {
+        CreatePostOfferDto postOfferDto = modelMapper.map(offer, CreatePostOfferDto.class);
+        postOfferDto.setOfferId(offer.getId());
+        postOfferDto.setBuyer(modelMapper.map(user, UserDto.class));
+        postRestConsumer.addOfferToPost(offer.getPostSummary().getId(), postOfferDto);
     }
 
     @Override

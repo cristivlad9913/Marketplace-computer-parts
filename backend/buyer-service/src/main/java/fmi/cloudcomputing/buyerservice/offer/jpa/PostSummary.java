@@ -21,7 +21,7 @@ public class PostSummary {
     private String ownerUsername;
 
     @Column(name = "owner_mail")
-    private String ownerMail;
+    private String ownerEmail;
 
     @Column(name = "owner_phone")
     private String ownerPhone;
@@ -58,12 +58,12 @@ public class PostSummary {
         this.ownerUsername = ownerUsername;
     }
 
-    public String getOwnerMail() {
-        return ownerMail;
+    public String getOwnerEmail() {
+        return ownerEmail;
     }
 
-    public void setOwnerMail(String ownerMail) {
-        this.ownerMail = ownerMail;
+    public void setOwnerEmail(String ownerMail) {
+        this.ownerEmail = ownerMail;
     }
 
     public String getOwnerPhone() {
