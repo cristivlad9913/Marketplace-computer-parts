@@ -17,7 +17,6 @@ public interface PostService {
 
     PostDto update(long id, UpdatePostDto dto);
 
-    void delete(long id);
 
     List<PostListingDto> getAll(OfferFilters filters);
 }

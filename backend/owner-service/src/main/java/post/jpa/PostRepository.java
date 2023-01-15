@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> findAllByOwner_id(Long buyerID);
+    List<Post> findByowner_id(Long buyerID);
 
     Arrays findAllByPostSummary_IdOrPostSummary_OwnerId(Long postId, Long ownerId);
 }

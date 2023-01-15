@@ -34,12 +34,12 @@ public class PostServiceImpl implements PostService {
     public List<PostListingDto> getAllForCurrentUser() {
 //        Authentication tine minte user-ul conectat, cel care a facut requestul
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        ProductOwner user = (ProductOwner) auth.getPrincipal();
+        ProductOwner owner = (ProductOwner) auth.getPrincipal();
 
 //        Trebuie sa definesti metoda asta in repository
 //        E gen `findBy' + 'Numele Fieldului din @Entity' si ca argument dai valoarea dupa care sa se ia
 
-        return postRepository.findAllByOwner_id(user.getId())
+        return postRepository.findByowner_id(owner.getId())
                 .stream()
                 .map(offer -> {
 //                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
@@ -100,10 +100,7 @@ public class PostServiceImpl implements PostService {
         return null;
     }
 
-    @Override
-    public void delete(Long id) {
 
-    }
 
     @Override
     public PostDto update(long id, UpdatePostDto dto) {
@@ -121,7 +118,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         postRepository.findById(id)
                 .ifPresentOrElse(
                         postRepository::delete,
