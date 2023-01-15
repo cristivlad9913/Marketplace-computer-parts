@@ -1,5 +1,10 @@
 package user.presentation;
 
+import post.presentation.PostDto;
+import user.jpa.ProductOwner;
+
+import java.util.List;
+
 public class ProductOwnerDto {
     private String username;
     private String password;
@@ -7,6 +12,25 @@ public class ProductOwnerDto {
     private String firstName;
     private String lastName;
     private String phone;
+    private List<PostDto> posts;
+
+    private PostDto postdto;
+
+    public PostDto getPostdto() {
+        return postdto;
+    }
+
+    public void setPostdto(PostDto postdto) {
+        this.postdto = postdto;
+    }
+
+    public List<PostDto> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostDto> posts) {
+        this.posts = posts;
+    }
 
     public String getFirstName() {
         return firstName;

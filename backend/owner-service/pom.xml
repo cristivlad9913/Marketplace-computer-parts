@@ -46,7 +46,13 @@
 			<groupId>io.github.openfeign</groupId>
 			<artifactId>feign-okhttp</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>fmi.cloud-computing</groupId>
+            <artifactId>buyer-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
