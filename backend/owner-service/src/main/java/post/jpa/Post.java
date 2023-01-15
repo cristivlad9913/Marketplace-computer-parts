@@ -20,6 +20,15 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private PostStatus status;
 
+    @Column(name = "total")
+    private double total;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "description")
+    private String description;
+
     public Long getId() {
         return id;
     }

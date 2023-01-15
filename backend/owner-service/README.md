@@ -58,9 +58,18 @@ Practic dashboard-ul userului dupa ce se logeaza.
 - Buton  de `New Post` sa poti sa creezi un `Post`
 - Click pe orice item din lista de `Post`-uri ca sa poti sa vezi pagina de detail
 
-```
+```agsl
 GET /my-posts
-Response: Lista de Post-uri JSON TBA
+Response: {
+    
+"id": long,
+"title": str,
+"descripition": str,
+"total": long,
+"ownerId": long,
+"ownerUsername": str,
+}
+
 ```
 
 # Create Post Page

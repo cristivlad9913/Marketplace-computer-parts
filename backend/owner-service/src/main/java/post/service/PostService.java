@@ -12,7 +12,7 @@ public interface PostService {
     List<PostListingDto> getAllForCurrentUser();
     PostDto getById(Long offerID);
     PostDto create(CreatePostDto dto);
-    PostDto update (Long id, UpdatePostDto dto);
+
     void delete(Long id);
 
     PostDto update(long id, UpdatePostDto dto);

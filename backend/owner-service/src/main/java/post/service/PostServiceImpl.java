@@ -39,7 +39,7 @@ public class PostServiceImpl implements PostService {
 //        Trebuie sa definesti metoda asta in repository
 //        E gen `findBy' + 'Numele Fieldului din @Entity' si ca argument dai valoarea dupa care sa se ia
 
-        return postRepository.findByowner_id(owner.getId())
+        return postRepository.findAllByOwner_Id(owner.getId())
                 .stream()
                 .map(offer -> {
 //                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
@@ -86,7 +86,7 @@ public class PostServiceImpl implements PostService {
         Post post = modelMapper.map(dto, Post.class);
         post.setOwner(owner);
         post.setStatus(PostStatus.AVAILABLE);
-        post = PostRepository.save(post);
+        post = postRepository.save(post);
 //        offer.setPostSummary(modelMapper.map(postDto, PostSummary.class));
 
         PostDto result = modelMapper.map(post, PostDto.class);
@@ -94,12 +94,6 @@ public class PostServiceImpl implements PostService {
 
         return result;
     }
-
-    @Override
-    public PostDto update(Long id, UpdatePostDto dto) {
-        return null;
-    }
-
 
 
     @Override
