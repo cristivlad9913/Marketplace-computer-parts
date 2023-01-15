@@ -13,15 +13,16 @@ import user.offer.Offer;
 import user.offer.OfferRepository;
 import user.post.Post;
 import user.post.PostRepository;
+import user.presentation.CreateProductOwner;
+import user.presentation.LoginProductOwnerDto;
+import user.presentation.ProductOwnerDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductOwnerService {
 
-    ProductOwner registerUser(ProductOwner productOwner) ;
-
-    ProductOwner getCurrentUser(String username, String password);
+    ProductOwnerDto registerUser(CreateProductOwner dto) ;
 
     List<Post> getAllPosts();
 
@@ -50,11 +51,11 @@ public interface ProductOwnerService {
 
       ProductOwner updateProductOwnerProfile(ProductOwner productOwner);
 
-    boolean userCredentialsValid(ProductOwner productOwner);
+    boolean userCredentialsValid(LoginProductOwnerDto loginProductOwner);
     public default void logout() {
        // TODO: add this
     }
 
-    ProductOwner getCurrentUser();
+    ProductOwnerDto getCurrentUser();
 }
 

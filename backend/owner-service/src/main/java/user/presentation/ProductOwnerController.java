@@ -23,21 +23,25 @@ public class ProductOwnerController {
 
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody ProductOwner productOwner) {
-       final boolean isSuccessfulLogin = productOwnerService.userCredentialsValid(productOwner);
-        return ResponseEntity.status(isSuccessfulLogin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED).build();
-    }
+
     @PostMapping("/register")
-    public ResponseEntity<ProductOwner> registerUser(@RequestBody ProductOwner createUserDto){
-        ProductOwner out = createUserDto.registerUser(createUserDto);
+    public ResponseEntity<ProductOwnerDto> registerUser(@RequestBody CreateProductOwner createUserDto){
+        ProductOwnerDto out = productOwnerService.registerUser(createUserDto);
 //        ResponseEntity is a wrapper that adds HTTP stuff to your response
         return ResponseEntity.status(HttpStatus.CREATED).body(out);
     }
-
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@RequestBody LoginProductOwnerDto loginProductOwner) {
+        final boolean isSuccessfulLogin = productOwnerService.userCredentialsValid(loginProductOwner);
+        return ResponseEntity.status(isSuccessfulLogin ? HttpStatus.OK : HttpStatus.UNAUTHORIZED).build();
+    }
+    @GetMapping
+    public ResponseEntity<?> getProfile(){
+        return ResponseEntity.ok(productOwnerService.getCurrentUser());
+    }
     @GetMapping("/feed")
-    public List<Post> getAllPosts() {
-        return productOwnerService.getAllPosts();
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return (ResponseEntity<List<Post>>) productOwnerService.getAllPosts();
     }
 
     @PostMapping("/feed")
@@ -99,10 +103,10 @@ public class ProductOwnerController {
         return ResponseEntity.ok(productOwnerService.getCurrentUser());
     }
 
-    @PutMapping("/profile")
-    public Optional<ProductOwner> updateProductOwnerProfile(@RequestBody ProductOwner productOwner) {
-        return productOwnerService.updateProductOwnerProfile(productOwner);
-    }
+//    @PutMapping("/profile")
+//    public Optional<ProductOwner> updateProductOwnerProfile(@RequestBody ProductOwner productOwner) {
+//        return productOwnerService.updateProductOwnerProfile(productOwner);
+//    }
 
     @PostMapping("/logout")
     public void logout() {

@@ -1,8 +1,6 @@
 package user.presentation;
 
-import user.jpa.ProductOwner;
-
-public class CreateProductOwner {
+public class ProductOwnerDto {
     private String username;
     private String password;
     private String email;

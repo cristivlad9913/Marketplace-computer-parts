@@ -1,6 +1,7 @@
 package user.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,10 +12,12 @@ import user.item.Item;
 import user.jpa.ProductOwnerRepository;
 import user.offer.Offer;
 import user.post.Post;
+import user.presentation.CreateProductOwner;
+import user.presentation.LoginProductOwnerDto;
+import user.presentation.ProductOwnerDto;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class ProductOwnerImpl implements ProductOwnerService {
@@ -27,38 +30,26 @@ public class ProductOwnerImpl implements ProductOwnerService {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
-
     @Override
-    public ProductOwner createProductOwner(ProductOwner productOwner) {
-        return ProductOwnerService.super.createProductOwner(productOwner);
-    }
-
-    @Override
-    public ProductOwner registerUser(ProductOwner dto) {
+    public ProductOwnerDto registerUser(CreateProductOwner dto) {
         ProductOwner newUser = modelMapper.map(dto, ProductOwner.class);
         newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
         newUser = userRepository.save(newUser);
-        return modelMapper.map(newUser, ProductOwner.class);
+        return modelMapper.map(newUser, ProductOwnerDto.class);
     }
 
     @Override
-    public ProductOwner getCurrentUser(){
+    public ProductOwnerDto getCurrentUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth.getPrincipal() instanceof  ProductOwner){
-            return modelMapper.map(((ProductOwner)auth.getPrincipal()), ProductOwner.class);
+            return modelMapper.map(((ProductOwner)auth.getPrincipal()), ProductOwnerDto.class);
         }else{
             return userRepository
                     .findByUsername(auth.getName())
-                    .map(user -> modelMapper.map(user, ProductOwner.class))
+                    .map(user -> modelMapper.map(user, ProductOwnerDto.class))
                     .orElseThrow(() -> new NoSuchElementException("Could not find user profile"));
         }
     }
-
-    @Override
-    public Optional<ProductOwner> login(String username, String password) {
-        return null;
-    }
-
     @Override
     public List<Post> getAllPosts() {
         return null;
@@ -71,72 +62,74 @@ public class ProductOwnerImpl implements ProductOwnerService {
 
     @Override
     public Post updatePost(Long postId, Post post) {
-        return ProductOwnerService.super.updatePost(postId, post);
-    }
+return null;    }
 
     @Override
     public void deletePost(Long postId) {
-        ProductOwnerService.super.deletePost(postId);
+
     }
 
     @Override
     public Post getPostById(Long postId) {
-        return ProductOwnerService.super.getPostById(postId);
+     return null;
     }
 
     @Override
     public Item addItemToPost(Long postId, Item item) {
-        return ProductOwnerService.super.addItemToPost(postId, item);
+       return null;
     }
 
     @Override
     public Item updateItem(Long postId, Long itemId, Item item) {
-        return ProductOwnerService.super.updateItem(postId, itemId, item);
+      return null;
     }
 
     @Override
     public void deleteItem(Long postId, Long itemId) {
-        ProductOwnerService.super.deleteItem(postId, itemId);
+
     }
 
     @Override
     public List<Offer> getAllOffers() {
-        return ProductOwnerService.super.getAllOffers();
+        return null;
     }
 
     @Override
     public Offer acceptOffer(Long offerId) {
-        return ProductOwnerService.super.acceptOffer(offerId);
+        return null;
     }
 
     @Override
     public Offer declineOffer(Long offerId) {
-        return ProductOwnerService.super.declineOffer(offerId);
+        return null;
     }
 
     @Override
     public List<Deal> getAllDeals() {
-        return ProductOwnerService.super.getAllDeals();
+        return null;
     }
 
     @Override
-    public Optional<ProductOwner> getProductOwnerProfile() {
-        return ProductOwnerService.super.getProductOwnerProfile();
+    public ProductOwner getProductOwnerProfile() {
+
+        return null;
     }
 
     @Override
-    public Optional<ProductOwner> updateProductOwnerProfile(ProductOwner productOwner) {
-        return ProductOwnerService.super.updateProductOwnerProfile(productOwner);
-    }
-
-    @Override
-    public boolean userCredentialsValid(ProductOwner productOwner) {
-        return false;
+    public ProductOwner updateProductOwnerProfile(ProductOwner productOwner) {
+        return null;
     }
 
     @Override
     public void logout() {
         ProductOwnerService.super.logout();
+    }
+    @Override
+    public boolean userCredentialsValid(LoginProductOwnerDto loginUserDto) {
+        return userRepository
+                .findByUsername(loginUserDto.getUsername())
+                .map(user -> passwordEncoder.matches(loginUserDto.getPassword(), user.getPassword()))
+                .orElse(false);
     }
 
 }
