@@ -18,17 +18,17 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final ItemRepository itemRepository;
-    private final PostOfferRepository postOfferRepository;
+    private final OfferRestConsumer offerRestConsumer;
     private final ModelMapper modelMapper;
 
     public PostServiceImpl(PostRepository postRepository,
-                           PostRestConsumer postRestConsumer,
+                           OfferRestConsumer postRestConsumer,
                            ItemRepository itemRepository,
-                           PostOfferRepository postOfferRepository,
+                           OfferRestConsumer offerRestConsumer,
                            ModelMapper modelMapper) {
         this.postRepository = postRepository;
         this.itemRepository = itemRepository;
-        this.postOfferRepository = postOfferRepository;
+        this.offerRestConsumer = offerRestConsumer;
         this.modelMapper = modelMapper;
     }
 
@@ -169,28 +169,4 @@ public class PostServiceImpl implements PostService {
         return null;
     }
 
-    @Override
-    public void addOfferById(Long id, PostOfferDto postOfferDto) {
-        Post post = postRepository.findById(id).orElseThrow();
-        PostOffer postOffer = modelMapper.map(postOfferDto, PostOffer.class);
-        postOffer.setStatus("PENDING");
-        postOffer.setPost(post);
-        postOfferRepository.save(postOffer);
-
-    }
-
-    @Override
-    public List<PostOfferDto> getAllOffersById(long id) {
-        return postOfferRepository.findAllByPost_Id(id)
-                .stream().map(po -> modelMapper.map(po, PostOfferDto.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public PostOfferDto updatePostOfferStatus(long id, long offerId, UpdatePostOfferDto updatePostOfferDto) {
-        PostOffer postOffer = postOfferRepository.findById(offerId).orElseThrow();
-        postOffer.setStatus(updatePostOfferDto.getStatus());
-        postOffer = postOfferRepository.save(postOffer);
-        return modelMapper.map(postOffer, PostOfferDto.class);
-    }
 }

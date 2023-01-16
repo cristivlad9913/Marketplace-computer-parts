@@ -18,7 +18,4 @@ public interface PostRestConsumer {
     @GetMapping("/posts/{id}")
     public ResponseEntity<PostDto> getById(@PathVariable("id") Long id);
 
-    @PostMapping("/posts/{id}/offers")
-    public ResponseEntity<?> addOfferToPost(@PathVariable("id") Long id,
-                                            @RequestBody CreatePostOfferDto createPostOfferDto);
 }

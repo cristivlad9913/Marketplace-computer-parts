@@ -13,8 +13,8 @@ public interface OfferService {
     OfferDto create(CreateOfferDto dto);
 
     OfferDto update(long id, UpdateOfferDto dto);
-
+    PostOfferDto updateStatusInternal(long id, UpdateOfferDto dto);
     void delete(long id);
 
-    List<OfferListingDto> getAll(OfferFilters filters);
+    List<PostOfferDto> getAll(OfferFilters filters);
 }

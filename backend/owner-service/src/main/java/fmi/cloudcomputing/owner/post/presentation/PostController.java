@@ -1,6 +1,6 @@
 package fmi.cloudcomputing.owner.post.presentation;
 
-import fmi.cloudcomputing.owner.post.jpa.PostOffer;
+import fmi.cloudcomputing.buyerservice.offer.presentation.OfferFilters;
 import fmi.cloudcomputing.owner.post.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +11,10 @@ import java.util.NoSuchElementException;
 @RestController
 public class PostController {
     private final PostService postService;
-
-    public PostController(PostService postService) {
+    private final OfferRestConsumer offerRestConsumer;
+    public PostController(PostService postService, OfferRestConsumer offerRestConsumer) {
         this.postService = postService;
+        this.offerRestConsumer = offerRestConsumer;
     }
 
     //    CREATE
@@ -59,7 +60,9 @@ public class PostController {
 
     @GetMapping("/posts/{id}/offers")
     public ResponseEntity<List<PostOfferDto>> getOffers(@PathVariable long id){
-        return ResponseEntity.ok(postService.getAllOffersById(id));
+        OfferFilters filters = new OfferFilters();
+        filters.setPostId(id);
+        return offerRestConsumer.getAllByPost(filters);
     }
 
 
@@ -67,7 +70,7 @@ public class PostController {
     public ResponseEntity<PostOfferDto> updateStatus(@PathVariable long id,
                                                      @PathVariable("offerId") long offerId,
                                                      @RequestBody UpdatePostOfferDto updatePostOfferDto){
-        return ResponseEntity.ok(postService.updatePostOfferStatus(id, offerId, updatePostOfferDto));
+        return offerRestConsumer.updateStatus(offerId, updatePostOfferDto);
     }
 
 }

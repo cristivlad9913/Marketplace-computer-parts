@@ -125,7 +125,7 @@ Response:
 }
 ```
 ```agsl
-PATCH /posts/{id}
+GET /posts/{id}
 Body: 
 {
     "title":"ijasdij",

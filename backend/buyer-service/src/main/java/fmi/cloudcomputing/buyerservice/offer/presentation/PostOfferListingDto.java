@@ -1,15 +1,13 @@
 package fmi.cloudcomputing.buyerservice.offer.presentation;
 
 import fmi.cloudcomputing.buyerservice.offer.jpa.OfferStatus;
-import fmi.cloudcomputing.buyerservice.offer.jpa.PostSummary;
 import fmi.cloudcomputing.buyerservice.user.presentation.UserDto;
 
-public class OfferDto {
+public class PostOfferListingDto {
     private Long id;
-    private UserDto buyer;
     private double offeredPrice;
     private OfferStatus status;
-    private PostSummary postSummary;
+    private UserDto buyer;
 
     public Long getId() {
         return id;
@@ -17,14 +15,6 @@ public class OfferDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public UserDto getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(UserDto buyer) {
-        this.buyer = buyer;
     }
 
     public double getOfferedPrice() {
@@ -43,11 +33,11 @@ public class OfferDto {
         this.status = status;
     }
 
-    public PostSummary getPostSummary() {
-        return postSummary;
+    public UserDto getBuyer() {
+        return buyer;
     }
 
-    public void setPostSummary(PostSummary postSummary) {
-        this.postSummary = postSummary;
+    public void setBuyer(UserDto buyer) {
+        this.buyer = buyer;
     }
 }

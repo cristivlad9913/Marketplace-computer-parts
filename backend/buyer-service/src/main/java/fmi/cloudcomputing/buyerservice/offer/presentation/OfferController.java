@@ -58,14 +58,13 @@ public class OfferController {
     //    Endpoint astea o sa fie apelate din owner-app
 //    Don't mind these
 
-    @GetMapping("/offers")
-    public ResponseEntity<List<OfferListingDto>>getAll(OfferFilters filters){
+    @GetMapping("/internal/offers")
+    public ResponseEntity<List<PostOfferDto>>getAll(OfferFilters filters){
         return ResponseEntity.ok(offerService.getAll(filters));
     }
 
-    @PostMapping("/offers/{id}/status")
-    public ResponseEntity<OfferDto> updateStatus(@PathVariable long id,
-                                                 @RequestBody UpdateOfferDto dto){
-        return ResponseEntity.ok(offerService.update(id, dto));
+    @PostMapping("/internal/offers/{id}")
+    public ResponseEntity<PostOfferDto> updateStatus(@PathVariable long id, @RequestBody UpdateOfferDto dto){
+        return ResponseEntity.ok(offerService.updateStatusInternal(id, dto));
     }
 }

@@ -5,7 +5,6 @@ import fmi.cloudcomputing.buyerservice.offer.jpa.OfferRepository;
 import fmi.cloudcomputing.buyerservice.offer.jpa.OfferStatus;
 import fmi.cloudcomputing.buyerservice.offer.jpa.PostSummary;
 import fmi.cloudcomputing.buyerservice.offer.presentation.*;
-import fmi.cloudcomputing.buyerservice.post.CreatePostOfferDto;
 import fmi.cloudcomputing.buyerservice.post.PostDto;
 import fmi.cloudcomputing.buyerservice.post.PostRestConsumer;
 import fmi.cloudcomputing.buyerservice.user.jpa.User;
@@ -99,16 +98,9 @@ public class OfferServiceImpl implements OfferService {
         OfferDto result = modelMapper.map(offer, OfferDto.class);
         result.setBuyer(modelMapper.map(user, UserDto.class));
 
-        sendOfferToPost(offer, user);
         return result;
     }
 
-    private void sendOfferToPost(Offer offer, User user) {
-        CreatePostOfferDto postOfferDto = modelMapper.map(offer, CreatePostOfferDto.class);
-        postOfferDto.setOfferId(offer.getId());
-        postOfferDto.setBuyer(modelMapper.map(user, UserDto.class));
-        postRestConsumer.addOfferToPost(offer.getPostSummary().getId(), postOfferDto);
-    }
 
     @Override
     public OfferDto update(long id, UpdateOfferDto dto) {
@@ -127,6 +119,16 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public PostOfferDto updateStatusInternal(long id, UpdateOfferDto dto) {
+        Offer offer = offerRepository.findById(id).orElseThrow();
+        if(dto.getStatus() != null) {
+            offer.setStatus(dto.getStatus());
+        }
+        offer = offerRepository.save(offer);
+        return makePostOffer(offer);
+    }
+
+    @Override
     public void delete(long id) {
         offerRepository.findById(id)
                 .ifPresentOrElse(
@@ -137,19 +139,21 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<OfferListingDto> getAll(OfferFilters filters) {
-        return offerRepository.findAllByPostSummary_IdOrPostSummary_OwnerId(filters.getPostId(), filters.getOwnerId())
+    public List<PostOfferDto> getAll(OfferFilters filters) {
+        //                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
+        return offerRepository.findAllByPostSummary_Id(filters.getPostId())
                 .stream()
-                .map(offer ->{
-//                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
-                    OfferListingDto dto = modelMapper.map(offer, OfferListingDto.class);
-
-//                    dto.setPostId(offer.getPostSummary().getId());
-//                    dto.setPostTitle(offer.getPostSummary().getTitle());
-//                    dto.setRequestedPrice(offer.getPostSummary().getRequestPrice());
-//                    dto.setOwnerUsername(offer.getPostSummary().getOwnerUsername());
-                    return dto;
-                })
+                .map(this::makePostOffer)
                 .collect(Collectors.toList());
+    }
+
+    private PostOfferDto makePostOffer(Offer offer) {
+        PostOfferDto dto = modelMapper.map(offer, PostOfferDto.class);
+        User buyer = Hibernate.unproxy(offer.getBuyer(), User.class);
+        dto.setOfferId(offer.getId());
+        dto.setBuyer(modelMapper.map(buyer, UserDto.class));
+        dto.setOfferedPrice(offer.getOfferedPrice());
+        dto.setStatus(offer.getStatus());
+        return dto;
     }
 }
