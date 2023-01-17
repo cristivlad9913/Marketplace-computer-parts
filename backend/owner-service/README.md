@@ -166,15 +166,15 @@ Lista de `Offer` care sunt facute pentru `Post`-ul asta.
 GET /posts/{id}/offers
 Response: [
     {
-        "offerId": 42,
+        "offerId": 44,
         "buyer": {
             "id": 1,
             "username": "test1",
             "email": "some@mail.com",
             "phone": "1230909301-20"
         },
-        "offeredPrice": 158.0,
-        "status": "PENDING"
+        "offeredPrice": 150.0,
+        "status": "REFUSED"
     },
     ...
 ]

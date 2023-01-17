@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/internal")
 public class PostRestInternalController {
@@ -19,6 +21,11 @@ public class PostRestInternalController {
     @GetMapping("/posts/{id}")
     public ResponseEntity<PostDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(postService.getById(id));
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostListingDto>> getById() {
+        return ResponseEntity.ok(postService.getAll());
     }
 
 

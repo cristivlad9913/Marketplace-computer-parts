@@ -13,7 +13,7 @@ import java.util.List;
 @FeignClient(name = "PostRestConsumer", url = "http://localhost:8081/internal")
 public interface PostRestConsumer {
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDto>> getAllActive();
+    public ResponseEntity<List<PostListingDto>> getAllActive();
 
     @GetMapping("/posts/{id}")
     public ResponseEntity<PostDto> getById(@PathVariable("id") Long id);

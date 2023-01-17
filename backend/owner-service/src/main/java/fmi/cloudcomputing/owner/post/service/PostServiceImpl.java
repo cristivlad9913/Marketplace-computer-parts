@@ -5,6 +5,7 @@ import fmi.cloudcomputing.owner.post.jpa.*;
 import fmi.cloudcomputing.owner.post.presentation.*;
 import fmi.cloudcomputing.owner.user.jpa.ProductOwner;
 import fmi.cloudcomputing.owner.user.presentation.ProductOwnerDto;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -152,21 +153,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostListingDto> getAll(OfferFilters filters) {
-        //return postRepository.findAllByPostSummary_IdOrPostSummary_OwnerId(filters.getPostId(), filters.getOwnerId());
-//                .stream()
-//                .map(post ->{
-////                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
-//                    PostListingDto dto = modelMapper.map(post, PostListingDto.class);
-//
-////                    dto.setPostId(offer.getPostSummary().getId());
-////                    dto.setPostTitle(offer.getPostSummary().getTitle());
-////                    dto.setRequestedPrice(offer.getPostSummary().getRequestPrice());
-////                    dto.setOwnerUsername(offer.getPostSummary().getOwnerUsername());
-//                    return dto;
-//                })
-//                .collect(Collectors.toList());
-        return null;
+    public List<PostListingDto> getAll() {
+        return postRepository.findAll()
+                .stream()
+                .map(post ->{
+//                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
+                    PostListingDto dto = modelMapper.map(post, PostListingDto.class);
+                    ProductOwner owner = Hibernate.unproxy(post.getOwner(), ProductOwner.class);
+                    dto.setOwnerId(owner.getId());
+                    dto.setOwnerUsername(owner.getUsername());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
 }
