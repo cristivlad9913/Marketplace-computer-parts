@@ -19,10 +19,14 @@
         <spring-cloud.version>2021.0.5</spring-cloud.version>
         <spring-boot.version>2.6.13</spring-boot.version>
         <postgresql.version>42.3.3</postgresql.version>
+        <spring-cloud-sleuth-otel.version>1.0.0-M12</spring-cloud-sleuth-otel.version>
+
     </properties>
 
     <dependencyManagement>
+
         <dependencies>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

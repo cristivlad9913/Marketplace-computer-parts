@@ -104,10 +104,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto update(long id, UpdatePostDto dto) {
         Post post = postRepository.findById(id).orElseThrow();
-        modelMapper.map(dto, post);
-        final Post updatedPost = postRepository.save(post);
+        modelMapper.map(dto, post);;
         final List<Item> toDelete = itemRepository
-                .findAllByPost(updatedPost)
+                .findAllByPost(post)
                 .stream()
                 .filter(presentItem -> {
                     return (dto.getItems().stream().noneMatch(i -> i.getId() == presentItem.getId()));
@@ -122,7 +121,7 @@ public class PostServiceImpl implements PostService {
                     Item updatedItem = itemRepository.findById(updateItemDto.getId()).orElse(null);
                     if(updatedItem == null){
                         updatedItem = modelMapper.map(updateItemDto, Item.class);
-                        updatedItem.setPost(updatedPost);
+                        updatedItem.setPost(post);
                     }else {
                         modelMapper.map(updateItemDto, updatedItem);
                     }
@@ -130,6 +129,10 @@ public class PostServiceImpl implements PostService {
                 })
                 .collect(Collectors.toList());
         itemRepository.deleteAll(toDelete);
+
+        post.setTotal(items.stream().map(Item::getPrice).reduce((double) 0, Double::sum));
+        final Post updatedPost = postRepository.save(post);
+
         items = itemRepository.saveAll(items);
 
         PostDto result = modelMapper.map(updatedPost, PostDto.class);

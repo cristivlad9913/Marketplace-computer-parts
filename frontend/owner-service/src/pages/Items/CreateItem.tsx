@@ -28,7 +28,7 @@ function CreateItem({ post, closePage }) {
           ...userInfo.user,
         },
       })
-      .then(() => closePage());
+      .then((res) => closePage(res.data));
   };
 
   return (

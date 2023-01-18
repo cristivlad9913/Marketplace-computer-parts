@@ -11,10 +11,11 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import classes from "./styles/Posts.module.css";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const userInfo: any = useContext(UserContext);
-
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -28,7 +29,7 @@ const CreatePost = () => {
       auth: {
         ...userInfo.user,
       },
-    });
+    }).then(res => navigate(`/app/post/${res.data.id}`));
   };
 
   return (

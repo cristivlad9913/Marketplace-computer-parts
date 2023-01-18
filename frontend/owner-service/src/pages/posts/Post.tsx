@@ -19,6 +19,7 @@ import ItemCard from "./components/ItemCard";
 import classes from "./styles/Post.module.css";
 
 export type Item = {
+  id: number;
   name: string;
   price: number;
   description: string;
@@ -61,6 +62,10 @@ const Post = () => {
   const userInfo: any = useContext(UserContext);
   const { id } = useParams();
 
+  const onDeleteItem = (item: Item) => {
+    if(postDetails) {setPostDetails({...postDetails, items: postDetails.items.filter(it => it.id !== item.id)})}
+  }
+
   useEffect(() => {
     axios
       .get(`http://localhost:8081/posts/${id}`, {
@@ -85,7 +90,10 @@ const Post = () => {
 
   const handleAddItem = () => setShowAddItemPage(true);
 
-  const closeAddItemPage = () => setShowAddItemPage(false);
+  const closeAddItemPage = (newPostDetails: PostDetails) => {
+    setShowAddItemPage(false)
+    setPostDetails(newPostDetails);
+  };
 
   const acceptOffer = (offerId: string) => {
 
@@ -95,7 +103,13 @@ const Post = () => {
       {auth: {
         ...userInfo.user,
       }}
-    );
+    ).then(res => {
+      if(res.data && postOffers){
+      const index = postOffers?.findIndex(offer => offer.offerId === res.data.offerId)
+      const copy = [...postOffers]
+      copy[index] = res.data
+      setPostOffers(copy)
+    }});
   };
 
   const rejectOffer = async (offerId: string) => {
@@ -106,7 +120,13 @@ const Post = () => {
       {auth: {
         ...userInfo.user,
       }}
-    );
+    ).then(res => {
+      if(res.data && postOffers){
+      const index = postOffers?.findIndex(offer => offer.offerId === res.data.offerId)
+      const copy = [...postOffers]
+      copy[index] = res.data
+      setPostOffers(copy)
+    }});
   };
 
   return (
@@ -138,7 +158,7 @@ const Post = () => {
 
             <div className={classes.cardsContainer}>
               {postDetails.items.map((item, index) => (
-                <ItemCard item={item} key={index} />
+                <ItemCard item={item} key={index} onDelete={onDeleteItem} />
               ))}
               <Button onClick={handleAddItem}>Add item</Button>
             </div>
