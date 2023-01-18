@@ -1,7 +1,9 @@
 package fmi.cloudcomputing.owner.post.service;
 
-import fmi.cloudcomputing.buyerservice.offer.presentation.OfferFilters;
-import fmi.cloudcomputing.owner.post.presentation.*;
+import fmi.cloudcomputing.owner.post.presentation.CreatePostDto;
+import fmi.cloudcomputing.owner.post.presentation.PostDto;
+import fmi.cloudcomputing.owner.post.presentation.PostListingDto;
+import fmi.cloudcomputing.owner.post.presentation.UpdatePostDto;
 
 import java.util.List;
 

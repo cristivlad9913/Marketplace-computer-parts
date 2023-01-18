@@ -36,5 +36,8 @@ eureka:
     fetch-registry: true
     eureka-server-port: 8761
 
+internal:
+    ownerUrl: ${OWNER_URL:localhost}
+
 
 

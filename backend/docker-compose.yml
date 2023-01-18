@@ -16,9 +16,9 @@ services:
 #        image: catalincaprita/discovery-server:latest
 #        ports:
 #            - 8761:8761
-
+#
 #    buyer-service:
-#        image: catalincaprita/buyer-service:latest
+#        image: buyer-service:latest
 #        container_name: buyer-service
 #        ports:
 #            -   127.0.0.1:8080:8080
@@ -28,6 +28,30 @@ services:
 #        environment:
 #            DBMS_HOST: database
 #            DISCOVERY_HOST: discovery-server
+#            OWNER_URL: owner-service
+#    buyer-web:
+#        image: buyer-app:latest
+#        container_name: buyer-web
+#        ports:
+#            -   3000:3000
+#
+#    owner-service:
+#        image: owner-service:latest
+#        container_name: owner-service
+#        ports:
+#            - 127.0.0.1:8081:8081
+#        depends_on:
+#            - discovery-server
+#            - database
+#        environment:
+#            DBMS_HOST: database
+#            DISCOVERY_HOST: discovery-server
+#            BUYER_URL: buyer-service
+#    owner-web:
+#        image: owner-app:latest
+#        container_name: owner-web
+#        ports:
+#            - 3001:3000
 
 volumes:
     marketplace-data:

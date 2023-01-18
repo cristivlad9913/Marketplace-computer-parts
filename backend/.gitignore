@@ -4,7 +4,8 @@ owner-service/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### STS ###ll
+
 .apt_generated
 .classpath
 .factorypath

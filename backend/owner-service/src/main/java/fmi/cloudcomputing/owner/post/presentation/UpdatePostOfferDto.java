@@ -1,6 +1,7 @@
 package fmi.cloudcomputing.owner.post.presentation;
 
-import fmi.cloudcomputing.buyerservice.offer.jpa.OfferStatus;
+
+import fmi.cloudcomputing.owner.post.jpa.OfferStatus;
 
 public class UpdatePostOfferDto {
     private OfferStatus status;

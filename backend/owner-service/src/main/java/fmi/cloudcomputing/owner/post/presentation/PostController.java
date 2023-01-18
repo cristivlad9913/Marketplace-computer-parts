@@ -1,6 +1,5 @@
 package fmi.cloudcomputing.owner.post.presentation;
 
-import fmi.cloudcomputing.buyerservice.offer.presentation.OfferFilters;
 import fmi.cloudcomputing.owner.post.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

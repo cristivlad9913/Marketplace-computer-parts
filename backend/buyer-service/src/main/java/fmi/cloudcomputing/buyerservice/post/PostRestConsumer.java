@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "PostRestConsumer", url = "http://localhost:8081/internal")
+@FeignClient(name = "PostRestConsumer", url = "http://${internal.ownerUrl}:8081/internal")
 public interface PostRestConsumer {
     @GetMapping("/posts")
     public ResponseEntity<List<PostListingDto>> getAllActive();

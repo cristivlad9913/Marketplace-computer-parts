@@ -59,7 +59,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>buyer-service:latest</name>
+						<name>buyer-service</name>
 					</image>
 				</configuration>
 			</plugin>

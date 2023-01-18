@@ -1,6 +1,5 @@
 package fmi.cloudcomputing.owner.post.service;
 
-import fmi.cloudcomputing.buyerservice.offer.presentation.OfferFilters;
 import fmi.cloudcomputing.owner.post.jpa.*;
 import fmi.cloudcomputing.owner.post.presentation.*;
 import fmi.cloudcomputing.owner.user.jpa.ProductOwner;

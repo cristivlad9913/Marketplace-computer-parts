@@ -1,16 +1,16 @@
 package fmi.cloudcomputing.owner.post.presentation;
 
-import fmi.cloudcomputing.buyerservice.offer.presentation.OfferFilters;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
-@FeignClient(name = "OfferRestConsumer", url = "http://localhost:8080/internal")
+@FeignClient(name = "OfferRestConsumer", url = "http://${internal.buyerUrl}:8080/internal")
 public interface OfferRestConsumer {
     @GetMapping("/offers")
     ResponseEntity<List<PostOfferDto>> getAllByPost(@SpringQueryMap OfferFilters offerFilters);
