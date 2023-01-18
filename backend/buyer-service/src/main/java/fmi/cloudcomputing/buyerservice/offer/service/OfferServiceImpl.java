@@ -35,23 +35,17 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public List<OfferListingDto> getAllForCurrentUser() {
-//        Authentication tine minte user-ul conectat, cel care a facut requestul
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
-
-//        Trebuie sa definesti metoda asta in repository
-//        E gen `findBy' + 'Numele Fieldului din @Entity' si ca argument dai valoarea dupa care sa se ia
 
         return offerRepository.findAllByBuyer_Id(user.getId())
                 .stream()
                 .map(offer -> {
-//                    Foloseste model mapper, ca e mai rapid decat sa pui de mana setChestie();
                     OfferListingDto dto = modelMapper.map(offer, OfferListingDto.class);
-
-//                    dto.setPostId(offer.getPostSummary().getId());
-//                    dto.setPostTitle(offer.getPostSummary().getTitle());
-//                    dto.setRequestedPrice(offer.getPostSummary().getRequestPrice());
-//                    dto.setOwnerUsername(offer.getPostSummary().getOwnerUsername());
+                    dto.setPostId(offer.getPostSummary().getId());
+                    dto.setPostTitle(offer.getPostSummary().getTitle());
+                    dto.setRequestedPrice(offer.getPostSummary().getRequestPrice());
+                    dto.setOwnerUsername(offer.getPostSummary().getOwnerUsername());
                     return dto;
                 })
                 .collect(Collectors.toList());
