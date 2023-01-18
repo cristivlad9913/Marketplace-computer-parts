@@ -25,6 +25,13 @@ const Menu = () => {
         > 
           My Posts
         </Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/app/create-post")}
+          style={{ marginLeft: "16px" }}
+        > 
+          Create New Post
+        </Button>
       </div>
       <div className={classes.rightButtons}>
         <Button variant="contained" onClick={() => navigate("/app/profile")}>Profile</Button>

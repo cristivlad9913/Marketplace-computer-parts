@@ -25,7 +25,7 @@ const Posts = () => {
       })
       .then((res) => {
         if (res.data) {
-            setPosts(res.data);
+          setPosts(res.data);
         }
       })
       .catch((err) => console.error(err));

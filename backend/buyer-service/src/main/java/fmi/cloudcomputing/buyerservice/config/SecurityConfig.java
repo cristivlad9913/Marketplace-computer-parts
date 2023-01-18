@@ -3,6 +3,7 @@ package fmi.cloudcomputing.buyerservice.config;
 import fmi.cloudcomputing.buyerservice.user.jpa.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,7 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .cors().configurationSource(request -> {
+                    CorsConfiguration cors = new CorsConfiguration();
+                    cors.applyPermitDefaultValues();
+                    cors.addAllowedMethod(HttpMethod.PATCH);
+                    cors.addAllowedMethod(HttpMethod.PUT);
+                    cors.addAllowedMethod(HttpMethod.DELETE);
+                    return cors;
+                })
                 .and()
                 .authorizeRequests()
                 .antMatchers("/internal/**").permitAll()
